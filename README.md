@@ -84,9 +84,10 @@ aziendali l'isolamento dei client lo impedisce).
 
 ## Uso
 
-1. **Attiva webcam e calibra**: concedi il permesso, mettiti in posa neutra
-   (dritto, tutto il corpo in inquadratura) e resta fermo finché la barra non
-   è completa. La calibrazione costruisce la tua *baseline* personale.
+1. **Attiva webcam e calibra**: concedi il permesso. Hai **3 secondi** per
+   metterti in posa neutra (dritto, tutto il corpo in inquadratura); poi resta
+   fermo finché la barra non è completa. La calibrazione costruisce la tua
+   *baseline* personale.
 2. Dopo il countdown il gioco parte. Salta, accovacciati, inclinati.
 3. Se ti allontani dall'inquadratura il gioco va in pausa da solo e riprende
    quando ricompari.

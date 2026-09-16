@@ -28,6 +28,7 @@ export class Hud {
     this.coins = root.getElementById('hud-coins');
     this.hud = root.getElementById('hud');
     this.progress = root.getElementById('calibrate-progress');
+    this.calibrateCount = root.getElementById('calibrate-count');
     this.status = root.getElementById('status');
     this.countdown = root.getElementById('countdown-number');
     this.finalScore = root.getElementById('final-score');
@@ -65,6 +66,16 @@ export class Hud {
 
   setProgress(value) {
     this.progress.style.width = `${Math.round(value * 100)}%`;
+  }
+
+  // value = numero da mostrare, null per nascondere il conto alla rovescia.
+  setCalibrateCount(value) {
+    if (value == null) {
+      this.calibrateCount.classList.add('hidden');
+      return;
+    }
+    this.calibrateCount.textContent = value;
+    this.calibrateCount.classList.remove('hidden');
   }
 
   setStatus(text) {

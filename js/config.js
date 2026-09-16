@@ -50,6 +50,7 @@ export const CONFIG = {
 
   gestures: {
     calibrationFrames: 50,
+    calibrationCountdownMs: 3000, // tempo per sistemarsi prima di raccogliere i frame
     minVisibility: 0.5,
 
     // salto: i fianchi salgono sopra la baseline

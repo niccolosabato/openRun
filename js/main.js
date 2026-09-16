@@ -24,6 +24,7 @@ let tracker = null;
 let videoReady = false;
 let cameraActive = false;
 let calibrator = null;
+let calibrationStartAt = 0;
 let lastValidMs = -Infinity;
 let lastFrame = performance.now();
 let fps = 60;
@@ -52,7 +53,9 @@ function beginCalibration() {
   calibrator = new Calibrator();
   engine.reset();
   engine.setBaseline(null);
+  calibrationStartAt = performance.now() + CONFIG.gestures.calibrationCountdownMs;
   hud.setProgress(0);
+  hud.setCalibrateCount(Math.ceil(CONFIG.gestures.calibrationCountdownMs / 1000));
   game.setState(GameState.CALIBRATING);
 }
 
@@ -196,6 +199,15 @@ function processPose(now) {
   const landmarks = tracker.detect(video, now);
 
   if (game.state === GameState.CALIBRATING && calibrator) {
+    // Conto alla rovescia: tempo per sistemarsi, ancora nessun frame raccolto.
+    const remaining = calibrationStartAt - now;
+    if (remaining > 0) {
+      hud.setCalibrateCount(Math.ceil(remaining / 1000));
+      hud.drawSkeleton(landmarks, true);
+      return;
+    }
+    hud.setCalibrateCount(null);
+
     const progress = calibrator.add(landmarks);
     hud.setProgress(progress);
     hud.drawSkeleton(landmarks, progress > 0);
