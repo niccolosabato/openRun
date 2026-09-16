@@ -1,0 +1,11 @@
+{
+  "name": "openrun",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Endless runner 3D controllato col corpo tramite webcam (MediaPipe + Three.js), no build step.",
+  "scripts": {
+    "serve": "python3 server.py 8000",
+    "test": "node tests/run.mjs"
+  }
+}

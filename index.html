@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>openRun — runner 3D comandato col corpo</title>
+    <meta
+      name="description"
+      content="Endless runner 3D controllato con salto, squat e inclinazione del corpo via webcam. Tutto on-device."
+    />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.186.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.186.0/examples/jsm/",
+          "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@1.0.1/vision_bundle.mjs"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="stage">
+      <div id="game-root"></div>
+
+      <div id="hud" class="hidden">
+        <div class="hud-item">
+          <span class="hud-label">Punteggio</span>
+          <span id="hud-score" class="hud-value">0</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Velocità</span>
+          <span id="hud-speed" class="hud-value">0</span>
+        </div>
+        <div class="hud-item">
+          <span class="hud-label">Monete</span>
+          <span id="hud-coins" class="hud-value">0</span>
+        </div>
+      </div>
+
+      <div id="preview">
+        <video id="cam" playsinline autoplay muted></video>
+        <canvas id="overlay"></canvas>
+        <span id="preview-label">webcam</span>
+      </div>
+
+      <button id="debug-toggle" title="Mostra/nascondi pannello debug (`)">{ }</button>
+
+      <div id="debug" class="hidden">
+        <div class="debug-row"><span>salto</span><div class="bar"><i id="debug-hip"></i></div></div>
+        <div class="debug-row"><span>lean</span><div class="bar"><i id="debug-lean"></i></div></div>
+        <div class="debug-row"><span id="debug-fps">60 fps</span></div>
+      </div>
+
+      <div id="toast" class="hidden"></div>
+
+      <div id="screen-menu" class="screen hidden">
+        <div class="panel">
+          <h1>open<span>Run</span></h1>
+          <p class="lead">Corri con il corpo. Salta, accovacciati, inclinati: la webcam legge i tuoi movimenti in tempo reale.</p>
+          <ul class="commands">
+            <li><b>Salto</b><span>salta davvero sui due piedi</span></li>
+            <li><b>Duck</b><span>accovacciati</span></li>
+            <li><b>Destra / Sinistra</b><span>inclina il busto</span></li>
+          </ul>
+          <div id="menu-notice" class="notice hidden">
+            <b id="menu-notice-title"></b>
+            <span id="menu-notice-detail"></span>
+          </div>
+          <div class="actions">
+            <button id="btn-start" class="primary">Attiva webcam e calibra</button>
+            <button id="btn-keyboard" class="ghost">Gioca con la tastiera</button>
+          </div>
+          <p class="privacy">Il video non lascia mai il tuo dispositivo: l’elaborazione avviene nel browser. Serve HTTPS o localhost.</p>
+        </div>
+      </div>
+
+      <div id="screen-loading" class="screen hidden">
+        <div class="panel">
+          <div class="spinner"></div>
+          <p id="status">Carico…</p>
+        </div>
+      </div>
+
+      <div id="screen-calibrate" class="screen hidden">
+        <div class="panel">
+          <h2>Calibrazione</h2>
+          <p class="lead">Mettiti in posa neutra, dritto, con tutto il corpo in inquadratura. Resta fermo qualche secondo.</p>
+          <div class="progress"><i id="calibrate-progress"></i></div>
+          <button id="btn-menu" class="ghost">Annulla</button>
+        </div>
+      </div>
+
+      <div id="screen-countdown" class="screen hidden">
+        <div id="countdown-number">3</div>
+      </div>
+
+      <div id="screen-paused" class="screen hidden">
+        <div class="panel">
+          <h2>In pausa</h2>
+          <p class="lead">Non ti vedo più. Rimettiti davanti alla webcam per riprendere.</p>
+        </div>
+      </div>
+
+      <div id="screen-gameover" class="screen hidden">
+        <div class="panel">
+          <h2>Game over</h2>
+          <p class="final-score" id="final-score">0</p>
+          <p class="lead" id="final-details"></p>
+          <div class="actions">
+            <button id="btn-replay" class="primary">Rigioca</button>
+            <button id="btn-recalibrate" class="ghost">Ricalibra</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
